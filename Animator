@@ -1,0 +1,45 @@
+# Diccionario de animales con sus características
+base_de_datos_animales = {
+    "pajaro": "¿Vuela?",
+    "perro": "¿Tiene cuatro patas?",
+    "gato": "¿Es un animal doméstico?",
+    # Agrega más animales y características aquí
+}
+
+def main():
+    bucle = True
+    raiz = Arbol("pajaro")
+    while bucle:
+        if not si("Estás pensando en un animal? "):
+            break
+
+        arbol = raiz
+        while arbol.izquierda is not None:
+            pregunta = base_de_datos_animales.get(arbol.carga, "¿Es un " + arbol.carga + "? ")
+            if si(pregunta):
+                arbol = arbol.izquierda
+            else:
+                arbol = arbol.derecha
+
+        # Adivinar
+        animal = arbol.carga
+        if si("Es un " + animal + "? "):
+            print("¡Soy el mejor!")
+            continue
+
+        # Obtener información
+        nuevo_animal = input("¿Qué animal era? ")
+        caracteristica = input("¿Qué diferencia a un " + animal + " de un " + nuevo_animal + "? ")
+        pregunta_animal = "Si el animal fuera un " + animal + " ¿cuál sería la respuesta? "
+        base_de_datos_animales[nuevo_animal] = caracteristica
+        if si(pregunta_animal):
+            arbol.izquierda = Arbol(animal)
+            arbol.derecha = Arbol(nuevo_animal)
+        else:
+            arbol.derecha = Arbol(animal)
+            arbol.izquierda = Arbol(nuevo_animal)
+
+    return 0
+
+if __name__ == '__main__':
+    main()
